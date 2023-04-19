@@ -1,4 +1,5 @@
 import './Login.css'
+import axios from 'axios'
 import { useState } from 'react'
 import { PrimaryButton, SecondaryButton } from '../Common/Buttons'
 import { useNavigate } from 'react-router-dom'
@@ -16,17 +17,19 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
   const formSubmit = (e) => {
     e.preventDefault()
-    // TBD
+    axios.post('/login', { user, pass })
+      .then((res) => console.log(res))
+      .catch((err) => console.error(err))
   }
 
   return (
     <div>
       <form onSubmit={formSubmit}>
-        <TextBox type='text' placeholder='Type your email or username ...' onChange={(e) => setUser(e.target.value)} />
+        <TextBox type='text' placeholder='Type your email or username ...' onChange={(e) => setUser(e.target.value)} required />
         <br />
-        <TextBox type='password' placeholder='Type your password ...' onChange={(e) => setPass(e.target.value)} />
+        <TextBox type='password' placeholder='Type your password ...' onChange={(e) => setPass(e.target.value)} required />
         <br />
-        <PrimaryButton>Login</PrimaryButton>
+        <PrimaryButton type='submit'>Login</PrimaryButton>
       </form>
       <a href='/'>Home</a>
     </div>
