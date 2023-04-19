@@ -1,7 +1,9 @@
 import './Login.css'
 import axios from 'axios'
+import md5 from 'md5'
+
 import { useState } from 'react'
-import { PrimaryButton, SecondaryButton } from '../Common/Buttons'
+import { PrimaryButton } from '../Common/Buttons'
 import { useNavigate } from 'react-router-dom'
 import { TextBox } from '../Common/TextFields'
 
@@ -12,12 +14,12 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
     navigate('/')
   }
 
-  const [user, setUser] = useState('')
+  const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
 
   const formSubmit = (e) => {
     e.preventDefault()
-    axios.post('/login', { user, pass })
+    axios.post('/login', { email: email, password: md5(pass) })
       .then((res) => console.log(res))
       .catch((err) => console.error(err))
   }
@@ -25,9 +27,9 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
   return (
     <div>
       <form onSubmit={formSubmit}>
-        <TextBox type='text' placeholder='Type your email or username ...' onChange={(e) => setUser(e.target.value)} required />
+        <TextBox type='text' name='email' placeholder='Type your email ...' onChange={(e) => setEmail(e.target.value)} required />
         <br />
-        <TextBox type='password' placeholder='Type your password ...' onChange={(e) => setPass(e.target.value)} required />
+        <TextBox type='password' name='password' placeholder='Type your password ...' onChange={(e) => setPass(e.target.value)} required />
         <br />
         <PrimaryButton type='submit'>Login</PrimaryButton>
       </form>
