@@ -10,16 +10,21 @@ dotenv.config()
 const PORT = process.env.BE_PORT || 3001
 
 const app = express()
-// app.use("/static", express.static(__dirname + "/views/"));
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 app.post('/register', (req, res) => {
-  const fullName = req.params.fullName
-  const email = req.params.email
-  const password = req.params.password
+  console.log(req.body)
+  const fullName = req.body.fullName
+  const email = req.body.email
+  const password = req.body.password
 
-  const user = User.createUser(fullName, email, password)
-  if (user) {
+  const user = User.getUser(email, password)
+  if (user != null) {
+    res.status(400).send('User already exists!')
+  }
+
+  const newUser = User.createUser(fullName, email, password)
+  if (newUser) {
     res.send('User was created successfully. You may now login!')
   } else {
     res.send('Error while saving user, please try again later ...')
@@ -27,14 +32,14 @@ app.post('/register', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
-  const email = req.params.email
-  const password = req.params.password
-  const user = User.getUser(email, password)
+  const email = req.body.email
+  const password = req.body.password
 
+  const user = User.getUser(email, password)
   if (user == null) {
-    res.send({ user, error: 'No matching user was found ...'})
+    res.send({ user: user, error: 'No matching user was found ...'})
   } else {
-    res.send({ user, error: null })
+    res.send({ user: user, error: null })
   }
 })
 

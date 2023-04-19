@@ -12,30 +12,27 @@ const userSchema = mongoose.Schema({
 const User = mongoose.model('User', userSchema)
 
 const createUser = (fullName, email, password) => {
-    const options = { full_name: fullName, email, password, last_logged_in: new Date.now() }
+    const options = { full_name: fullName, email, password, last_logged_in: Date.now() }
 
-    return new User(options)
-        .save((err) => {
-            if (err) {
-                console.error(err)
-                return false
-            }
-            return true
+    return new User(options).save()
+        .then((res) => true)
+        .catch((err) => {
+            console.error(err)
+            return false
         })
 }
 
 const getUser = (email, password) => {
-    const options = { email, password }
-    const user = User.findOne(options, (user, err) => {
-        if (err) {
+    const options = { email: email, password: password }
+    return User.findOneAndUpdate(options, { last_logged_in: Date.now() })
+        .then((user) => {
+            console.log(user)
+            return user
+        })
+        .catch((err) => {
+            console.error(err)
             return null
-        }
-        return user
-    })
-    if (user) {
-        user.updateOne({ last_logged_in: new Date.now() })
-    }
-    return user
+        })
 }
 
 export default { createUser, getUser }
