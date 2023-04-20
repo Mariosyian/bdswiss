@@ -4,3 +4,16 @@ input {
     text-align: left;
     width: 25%;
 }
+
+.alert {
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    margin-inline: auto;
+    padding: 0.6rem 3rem;
+    width: max-content;
+}
+
+.error {
+    background-color: #ff004f;
+    border: 1px solid red;
+}

@@ -13,7 +13,6 @@ const app = express()
 app.use(bodyParser.json())
 
 app.post('/register', (req, res) => {
-  console.log(req.body)
   const fullName = req.body.fullName
   const email = req.body.email
   const password = req.body.password
@@ -36,11 +35,8 @@ app.post('/login', (req, res) => {
   const password = req.body.password
 
   const user = User.getUser(email, password)
-  if (user == null) {
-    res.send({ user: user, error: 'No matching user was found ...'})
-  } else {
-    res.send({ user: user, error: null })
-  }
+    .then((data) =>  res.send({ user: data.full_name, error: null }))
+    .catch((err) => res.status(400).send({ user: null, error: 'No matching user was found ...'}))
 })
 
 app.listen(PORT, () => {

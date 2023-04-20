@@ -8,11 +8,12 @@ import Register from './components/Register/Register'
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [name, setName] = useState('')
 
   return (
     <Routes>
-        <Route path="/" element={<Home isLoggedIn={isLoggedIn}/>} />
-        <Route path="/login" element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/" element={<Home isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} name={name}/>} />
+        <Route path="/login" element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setName={setName} />} />
         <Route path="/register" element={<Register isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
       </Routes>
   )

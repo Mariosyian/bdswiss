@@ -25,14 +25,8 @@ const createUser = (fullName, email, password) => {
 const getUser = (email, password) => {
     const options = { email: email, password: password }
     return User.findOneAndUpdate(options, { last_logged_in: Date.now() })
-        .then((user) => {
-            console.log(user)
-            return user
-        })
-        .catch((err) => {
-            console.error(err)
-            return null
-        })
+        .then((user) => user)
+        .catch((err) => null)
 }
 
 export default { createUser, getUser }
