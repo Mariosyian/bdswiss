@@ -18,6 +18,11 @@ const Register = ({ isLoggedIn, setIsLoggedIn }) => {
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
   const [confirmPass, setConfirmPass] = useState('')
+  const [hasRegistered, setHasRegistered] = useState(false)
+  const [registrationError, setRegistrationError] = useState({
+    error: false,
+    message: '',
+  })
 
   const [hasErrors, setHasErrors] = useState({
     nameLength: false,
@@ -43,13 +48,19 @@ const Register = ({ isLoggedIn, setIsLoggedIn }) => {
       !newErrorState['passwordRegex']
     ) {
       axios.post('/register', { fullName: user, password: md5(pass), email: email })
-        .then((res) => console.log(res))
-        .catch((err) => console.error(err))
+        .then((res) => setHasRegistered(true))
+        .catch((err) => setRegistrationError({ error: true, message: err.response.data }))
     }
   }
 
   return (
     <div>
+      {hasRegistered &&
+        <div className='alert success' role='alert'>Your registration was successful! You may now <a href='/login'>login</a>.</div>
+      }
+      {registrationError.error &&
+        <div className='alert error' role='alert'>{registrationError.message}</div>
+      }
       <form onSubmit={formSubmit}>
         <TextBox type='text' name='fullName' placeholder='Type your full name ...' onChange={(e) => setUser(e.target.value)} required />
         {hasErrors.nameLength && (

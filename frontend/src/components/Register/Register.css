@@ -9,6 +9,24 @@ div {
     width: 100%;
 }
 
+.alert {
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    margin-inline: auto;
+    padding: 0.6rem 3rem;
+    width: max-content;
+}
+
+.error {
+    background-color: #ff004f;
+    border: 1px solid red;
+}
+
 .error-text {
     color: red;
+}
+
+.success {
+    background-color: greenyellow;
+    border: 1px solid green;
 }

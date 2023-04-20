@@ -20,14 +20,14 @@ app.post('/register', (req, res) => {
 
   const user = User.getUser(email, password)
   if (user != null) {
-    res.status(400).send('User already exists!')
+    res.status(400).send('A user with this email already exists!')
   }
 
   const newUser = User.createUser(fullName, email, password)
   if (newUser) {
-    res.send('User was created successfully. You may now login!')
+    res.status(200).send()
   } else {
-    res.send('Error while saving user, please try again later ...')
+    res.status(400).send('Error while saving user, please try again later ...')
   }
 })
 
